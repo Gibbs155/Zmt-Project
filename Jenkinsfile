@@ -18,7 +18,7 @@ pipeline{
 		}
 		stage('Code Checkout From Git'){
 			steps{
-				git branch: 'main', url: 'https://github.com/Devops9AM/Zomato-Project.git'
+				git branch: 'main', url: 'https://github.com/Gibbs155/Zmt-Project.git'
 			}
 		}
 		stage("SonarQube Code Analysis"){
