@@ -1,12 +1,15 @@
 pipeline{
 	agent any 
+	
 	tools{
 		jdk 'jdk17'
 		nodejs 'node16'
 	}
+	
 	environment{
 		SCANNER_HOME=tool 'sonar-scanner'
 	}
+	
 	stages{
 		stage('clean workspace'){
 			steps{
@@ -29,12 +32,12 @@ pipeline{
 		stage("Code Quality Gates"){
 			steps{
 				script{
-					 timeout(time: 2, unit: 'MINUTES'){
+					timeout(time: 2, unit: 'MINUTES'){
 					waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
+					}
 				}
 			}
 		}
-	}
 		stage("Install Dependencies"){
 			steps{
 				sh "npm install"
@@ -58,10 +61,10 @@ pipeline{
 					sh "docker build -t cloudzomato . "
 					sh "docker tag cloudzomato thanish/cloudzomato:latest"
 					sh "docker push thanish/cloudzomato:latest"
-						}
 					}
 				}
 			}
+		}
 		stage("TRIVY is Image Scanning"){
 			steps{
 				sh "trivy image thanish/cloudzomato:latest >trivy.txt"
